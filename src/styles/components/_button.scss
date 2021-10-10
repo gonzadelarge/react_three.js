@@ -1,0 +1,55 @@
+.btn {
+    height: 40px;
+    border-radius: 4px;
+    color: $dark;
+    cursor: pointer;
+    transition: background-color .3s ease;
+
+    &-primary {
+        background-color: $primary;
+        color: white;
+        &:hover {
+            background-color: darken($color: $primary, $amount: 20);
+        }
+    }
+
+    &-secondary {
+        background-color: $secondary;
+        color: white;
+
+        &:hover {
+            background-color: $primary;
+        }
+    }
+
+    &-outline {
+        background-color: transparent;
+        border: 1px solid white;
+        color: white;
+
+        &:hover {
+            background-color: $secondary;
+            border:none;
+        }
+    }
+
+    &-block {
+        width: 100%;
+    }
+
+    &-mid {
+        width: 30%;
+    }
+
+    &-small {
+        height: 30px;
+        width: 60px;
+    }
+
+    
+
+    &:disabled {
+        background-color: lighten($color: $primary, $amount: 20);
+        cursor:default;
+    }
+}

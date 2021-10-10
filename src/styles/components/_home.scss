@@ -1,0 +1,13 @@
+.Home {
+    position: relative;
+
+    &__title {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        font-size: 200px;
+        color: $primary;
+    }
+}
