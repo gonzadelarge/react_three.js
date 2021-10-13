@@ -18,8 +18,12 @@ export const Navbar = () => {
                 </li>
                 <li>
                     <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/toroide">Toroide</NavLink>
-                </li> <li>
+                </li> 
+                <li>
                     <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/shoes">Shoes</NavLink>
+                </li>
+                <li>
+                    <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/steps">Steps</NavLink>
                 </li>
                 <li>
                     <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/sphere">Sphere</NavLink>

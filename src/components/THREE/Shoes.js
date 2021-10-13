@@ -33,6 +33,8 @@ export const ShoeApp = () => {
 function Shoes({ range }) {
 
     const { nodes, materials } = useGLTF('/shoe.glb')
+
+    console.log(nodes)
     
     return (
         <Instances range={range} material={materials.phong1SG} geometry={nodes.Shoe.geometry}>
