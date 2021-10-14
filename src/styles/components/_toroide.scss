@@ -1,0 +1,31 @@
+.Toroide {
+    position: relative;
+
+    &__title {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        color: $dark-mid;
+
+        font-size: 8rem;
+        font-weight: 900;
+        letter-spacing: -4px;
+        line-height: 1;
+
+        z-index: -1;
+
+    }
+
+    &__subtitle {
+        position: absolute;
+        top: 78%;
+        left: 26%;
+
+        color: $primary;
+        font-size: 22px;
+        font-weight: 800;
+
+    }
+}

@@ -1,45 +1,73 @@
-import React, { useRef, useState } from 'react'
-import { useFrame, Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
+import * as THREE from "three"
+import React, { Suspense, useLayoutEffect, useMemo, useRef } from "react"
+import { Canvas, useThree, useFrame } from "@react-three/fiber"
+import { useTexture, Shadow } from "@react-three/drei"
+import { a } from "@react-spring/three"
+import DistortionMaterial from "../Material/DistortionMaterial"
 
-export const Toroide = () => {
+const torus = new THREE.TorusBufferGeometry(5, 1.2, 128, 128)
+const material1 = new DistortionMaterial()
 
-    function Box(props) {
 
-        const ref = useRef()
 
-        const [hovered, setHover] = useState(false)
-        const [active, setActive] = useState(false)
+function Shape({ geometry, material, textures, opacity, color, shadowScale = [9, 1.5, 1], ...props }) {
 
-        useFrame(() => {
-            ref.current.rotation.x = ref.current.rotation.y += 0.01
-          })
+    const ref = useRef()
+    const { mouse, clock } = useThree()
 
-        return (
-            <mesh
-                {...props}
-                ref={ref}
-                scale={active ? 1.5 : 1}
-                onClick={(e) => setActive(!active)}
-                onPointerOver={(e) => setHover(true)}
-                onPointerOut={(e) => setHover(false)}>
-                <torusGeometry args={[10, 3, 20, 80]} />
-                <meshStandardMaterial color={ hovered ? 'crimson' : '#15e991' } />
-            </mesh>
-        )
-    }
+    const [ao, normal, height, roughness] = textures
+    const [rEuler, rQuaternion] = useMemo(() => [new THREE.Euler(), new THREE.Quaternion()], [])
+
+    useFrame(() => {
+        if (ref.current) {
+            rEuler.set((-mouse.y * Math.PI) / 10, (mouse.x * Math.PI) / 7, 0)
+            ref.current.quaternion.slerp(rQuaternion.setFromEuler(rEuler), 0.1)
+            ref.current.material.time = clock.getElapsedTime() * 3
+        }
+    })
 
     return (
-        <Canvas 
-            className="container bg-0"
-            camera={{ position: [0, 10, 65], fov: 40 }} 
-            performance={{ min: 0.1 }}
-        >
-            <ambientLight intensity={0.5} />
-            <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-            <pointLight position={[-10, -10, -10]} />
-            <Box position={[0, 0, 0]} />
-            <OrbitControls autoRotate={false} autoRotateSpeed={1} enableDamping />
-        </Canvas>
+        <group {...props}>
+            <a.mesh
+                ref={ref}
+                geometry={geometry}
+                material={material}
+                material-color={color}
+                material-aoMap={ao}
+                material-normalMap={normal}
+                material-displacementMap={height}
+                material-roughnessMap={roughness}
+                material-opacity={opacity}>
+                <Shadow opacity={0.4} scale={shadowScale} position={[0, -8.5, 0]} />
+            </a.mesh>
+        </group>
+    )
+}
+
+
+
+export function Toroide() {
+
+
+    const textures = useTexture(["/img/ao.jpg", "/img/normal.jpg", "/img/height.png", "/img/roughness.jpg"])
+
+    useLayoutEffect(() => {
+        textures.forEach(texture => {
+            texture.wrapT = texture.wrapS = THREE.RepeatWrapping 
+            texture.repeat.set(4, 4)
+        })
+    }, [textures])
+
+
+    return (
+        <>
+            <Canvas className="container" camera={{ position: [0, 0, 20], fov: 50 }} >
+                <spotLight position={[0, 30, 40]} />
+                <spotLight position={[-50, 30, 40]} />
+                <Suspense fallback={null}>
+                    <Shape geometry={torus} material={material1} textures={textures} color="white" opacity={1} />
+                </Suspense>
+            </Canvas>
+        </>
     )
 }

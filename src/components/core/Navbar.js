@@ -26,6 +26,9 @@ export const Navbar = () => {
                     <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/steps">Steps</NavLink>
                 </li>
                 <li>
+                    <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/train">Train</NavLink>
+                </li>
+                <li>
                     <NavLink exact activeClassName="navbar__link-active" className="navbar__link" to="/sphere">Sphere</NavLink>
                 </li>
             </ul>

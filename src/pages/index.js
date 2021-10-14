@@ -5,5 +5,6 @@ import { SpherePage } from "./SpherePage";
 import { StepsPage } from "./StepsPage"
 import { ErrorPage } from "./ErrorPage"
 import { ToroidePage } from "./ToroidePage"
+import { TrainPage } from "./TrainPage"
 
-export { ToroidePage, SpherePage, HomePage, ShoesPage, CubePage, StepsPage, ErrorPage };
+export { ToroidePage, SpherePage, HomePage, ShoesPage, CubePage, StepsPage, ErrorPage, TrainPage };
